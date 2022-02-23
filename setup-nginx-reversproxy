@@ -1,0 +1,54 @@
+19 This nginx use to reversproxy configuration
+ 
+ $ sudo apt-get install nginx
+ 
+20 Start the nginx service 
+
+ $sudo systemctl enable nginx
+
+ $sudo systemctl start nginx.service
+
+21 Remove The exting default configuration 
+ 
+ $sudo unlink /etc/nginx/sites-enabled/default
+ 
+22 Create the directory inside of nginx
+
+ $ sudo mkdir /etc/nginx/ssl
+ 
+23 Copy the Letsencrypt certificate
+
+$ sudo cp /etc/minio/certs/private.key /etc/nginx/ssl/ 
+
+$ sudo cp  /etc/minio/certs/public.crt /etc/nginx/ssl/
+ 
+24 add the new minio configuration 
+
+ $sudo vim etc/nginx/sites-available/minio.conf
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    ssl_certificate /etc/nginx/ssl/public.crt;
+    ssl_certificate_key  /etc/nginx/ssl/private.key;
+    server_name domain-name;
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+
+location /login {
+    proxy_pass http://localhost:9001;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_redirect http://domain-name  https://domain-name;
+    }
+}
+
+25 To link the nginx sites-availabel to sites-enabled
+
+ $sudo ln -s /etc/nginx/sites-available/minio.conf /etc/nginx/sites-enabled/
+
+26 Restart the nginx service 
+ $sudo systemctl restart nginx.service
