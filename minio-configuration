@@ -1,0 +1,69 @@
+### Minio server Setup
+
+1 Create User for minio
+
+$sudo useradd --system user-minio -s /bin/false
+
+2 Download Minio Server
+
+$ wget https://dl.minio.io/server/minio/release/linux-amd64/minio
+
+3 Chang owner group and add execute permission
+
+$ sudo chown user-minio. minio
+
+$ sudo chmod +x minio
+
+4 Move the binary file to the directory 
+
+$ sudo mv minio /usr/local/bin
+
+5 create the directory that contains our minio configuration file and also create a directory
+
+$ sudo mkdir /etc/minio
+
+6 change the ownership of the minio directory
+
+$ sudo chown user-minio:user-minio /etc/minio
+
+7 create the directory that contain storing the buckets that we upload to the minio server
+
+$ sudo mkdir /mnt/minio-storage
+
+8 change the ownership of the minio storagedirectory
+
+$ sudo chown user-minio:user-minio  /mnt/minio-storage
+
+9 change minio default configuration.
+
+$ sudo vim /etc/default/minio
+
+MINIO_ACCESS_KEY="minioadmin"
+
+MINIO_SECRET_KEY="minioadmin"
+
+MINIO_VOLUMES="/mnt/minio-storage/"
+
+MINIO_OPTS="-C /etc/minio --address :9000"
+
+MINIO_OPTS="-C /etc/minio --console-address :9001"
+
+MINIO_SERVER_URL=https://domain-name:9000
+
+10 minio service descriptor file in the systemd configuration dir. 
+
+$ curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service
+
+11 move the service file to the systemd configuration directory using the following command.
+
+$ sudo mv minio.service /etc/systemd/system
+
+12 reload systemd daemon
+ 
+ $ sudo systemctl daemon-reload
+ 
+13 start the minio service run
+ 
+ $ sudo systemctl enable minio
+ 
+ $ sudo systemctl start minio
