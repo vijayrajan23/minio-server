@@ -1,0 +1,28 @@
+14 install certbot add repo
+ 
+ $ sudo apt install software-properties-common
+ $ sudo add-apt-repository universe
+ $ sudo apt update
+ $ sudo apt install certbot
+ 
+15 Create certificate fllow command 
+
+ $ sudo certbot certonly --standalone -d compvisionminiotest.eastus.cloudapp.azure.com --staple-ocsp -m giriprasadred.gonde@hcl.com  --agree-tos
+ or This command use 
+ $ sudo sudo certbot certonly --standalone -d compvisionminiotest.eastus.cloudapp.azure.com
+ 
+16 To copy all private and publics certificate to minio configuration directory
+ 
+ $sudo cp /etc/letsencrypt/live/compvisionminio.eastus.cloudapp.azure.com/privkey.pem    /etc/minio/certs/private.key
+
+ $sudo cp /etc/letsencrypt/live/compvisionminio.eastus.cloudapp.azure.com/fullchain.pem  /etc/minio/certs/public.crt
+ 
+17 Chnage the those certificate owner ship permission
+ 
+  $sudo chown minio-user:minio-user /etc/minio/certs/private.key
+
+  $sudo chown minio-user:minio-user /etc/minio/certs/public.crt
+  
+18 Restart the minio services 
+ 
+ $ sudo systemctl restart minio
