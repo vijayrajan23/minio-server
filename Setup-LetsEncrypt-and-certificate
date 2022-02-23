@@ -7,15 +7,15 @@
  
 15 Create certificate fllow command 
 
- $ sudo certbot certonly --standalone -d compvisionminiotest.eastus.cloudapp.azure.com --staple-ocsp -m giriprasadred.gonde@hcl.com  --agree-tos
+ $ sudo certbot certonly --standalone -d domain-name.com --staple-ocsp -m domain-name.com@gmail.com  --agree-tos
  or This command use 
- $ sudo sudo certbot certonly --standalone -d compvisionminiotest.eastus.cloudapp.azure.com
+ $ sudo sudo certbot certonly --standalone -d domain-name.com
  
 16 To copy all private and publics certificate to minio configuration directory
  
- $sudo cp /etc/letsencrypt/live/compvisionminio.eastus.cloudapp.azure.com/privkey.pem    /etc/minio/certs/private.key
+ $sudo cp /etc/letsencrypt/live/domain-name.com/privkey.pem    /etc/minio/certs/private.key
 
- $sudo cp /etc/letsencrypt/live/compvisionminio.eastus.cloudapp.azure.com/fullchain.pem  /etc/minio/certs/public.crt
+ $sudo cp /etc/letsencrypt/live/domain-name.com/fullchain.pem  /etc/minio/certs/public.crt
  
 17 Chnage the those certificate owner ship permission
  
